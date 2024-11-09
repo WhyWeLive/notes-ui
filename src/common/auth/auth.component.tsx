@@ -1,4 +1,24 @@
+import { useForm } from 'react-hook-form';
+import { useAuth } from './auth.context.tsx';
+import { useNavigate } from 'react-router-dom';
+
+type Inputs = {
+  email: string;
+  password: string;
+};
+
 export const Auth = () => {
+  const navigate = useNavigate();
+  const { user, login } = useAuth();
+
+  if (user) {
+    navigate('/auth');
+  }
+
+  const { register, handleSubmit } = useForm<Inputs>();
+
+  const onSubmit = handleSubmit(data => login(data.email, data.password));
+
   return (
     <div
       className={'h-[100vh] flex flex-col gap-6 items-center justify-center'}
@@ -13,17 +33,19 @@ export const Auth = () => {
       </div>
 
       <div className={'bg-[#F6EEDD] p-4 rounded-xl w-96'}>
-        <form className={'flex flex-col gap-4'}>
+        <form className={'flex flex-col gap-4'} onSubmit={onSubmit}>
           <div className={'flex flex-col gap-2'}>
             <input
               className={'bg-[#FDF9EB] p-2 rounded-xl w-full h-12'}
-              placeholder={'Почта'}
+              placeholder={'Email'}
+              {...register('email')}
             />
 
             <input
               className={'bg-[#FDF9EB] p-2 rounded-xl w-full h-12'}
-              placeholder={'Пароль'}
+              placeholder={'Password'}
               type={'password'}
+              {...register('password')}
             />
           </div>
 
@@ -32,7 +54,7 @@ export const Auth = () => {
               'bg-[#43250E] text-center p-2 rounded-xl text-white w-full h-12'
             }
           >
-            Войти
+            Sign in
           </button>
         </form>
       </div>
