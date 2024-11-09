@@ -1,0 +1,10 @@
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+
+import { Application } from './common/application/application.tsx';
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <Application />
+  </StrictMode>,
+);
